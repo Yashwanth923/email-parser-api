@@ -15,16 +15,27 @@ def health():
     }
 
 
+@app.get("/version")
+def version():
+    return {
+        "version": "multipart-support-v1"
+    }
+
+
 @app.post("/parse-email")
 async def parse_email(request: Request):
 
     payload = await request.json()
+
+    print("RAW PAYLOAD:")
+    print(payload)
 
     if "$multipart" in payload:
         payload = payload["$multipart"]
 
     result = parse_payload(payload)
 
+    print("RESULT:")
     print(result)
 
     return result
